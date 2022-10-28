@@ -1,30 +1,33 @@
 import { useDispatch, useSelector } from "react-redux";
-
+import { counterAction } from "../store";
 import classes from "./Counter.module.css";
 
 const Counter = () => {
-  const counter = useSelector((state) => state.counter);
+  const counter = useSelector((state) => state.counter.counter);
+  const show = useSelector((state) => state.counter.showCounter);
   const dispatch = useDispatch();
 
   const incrementHandler = () => {
-    dispatch({ type: "increment" });
+    dispatch(counterAction.increment());
   };
   const incrementBy5Handler = () => {
-    dispatch({ type: "incrementBy5" });
+    dispatch(counterAction.increase(10)); // by default payload is set by redux toolkit
   };
   const decrementHandler = () => {
-    dispatch({ type: "decrement" });
+    dispatch(counterAction.decrement());
   };
   const decrementBy5Handler = () => {
-    dispatch({ type: "decrementBy5" });
+    dispatch({ type: "decrementBy5" }); // it like sending argumment
   };
 
-  const toggleCounterHandler = () => {};
+  const toggleCounterHandler = () => {
+    dispatch(counterAction.toggleCounter());
+  };
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{counter}</div>
+      {show && <div className={classes.value}>{counter}</div>}
       <button onClick={incrementHandler}>increment</button>
       <button onClick={incrementBy5Handler}>incrementBy5</button>
       <button onClick={decrementHandler}>decrement</button>
